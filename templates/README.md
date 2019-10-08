@@ -1,0 +1,3 @@
+# HITOMI
+
+A (knowing me, obviously it's a WIP) surveillance system paired with a web-based dashboard. Possible features are still being brainstormed. This initial version contains a simplistic program to demonstrate the very basic functionality -> Get images from connected camera, process the image (currently it captures faces) and then send the data to the backend so the web interface can access and display whatever info is there.
