@@ -1,5 +1,5 @@
 import cv2
-import numpy as np
+# import numpy as np
 import threading
 import facedetect
 from camera import Camera
