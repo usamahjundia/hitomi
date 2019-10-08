@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Test pages</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+        <div id="header">
+            <h1 id="headertitle">THE NUMBERS MASON, WHAT DO THEY MEAN</h1>
+        </div>
+        <div id="lists">
+            
+        </div>
+</body>
+<script type="text/javascript" src="//code.jquery.com/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.5/socket.io.min.js"></script>
+<script type="text/javascript" charset="utf-8">
+    let numcam;
+    $(document).ready(function(){
+        console.log("http://"+document.domain+":"+location.port+"/time");
+        let socket = io.connect("http://"+document.domain+":"+location.port+"/time");
+        socket.on('info',(json)=>{
+            console.log(`Connected to server having ${json.numrng} rngs`);
+            let x = document.getElementById('lists');
+            for(let i = 0; i < json.numrng; i++){
+                x.innerHTML += `<ol class = "list" id="list${i}">`
+            }
+            numcam = json.numrng;
+        });
+        socket.on('new numbers',(json)=>{
+            if(numcam != null){
+                for(let i = 0; i < numcam;i++){
+                    let x = document.getElementById(`list${i}`);
+                    x.innerHTML = '';
+                }
+            }
+            console.log(JSON.stringify(json));
+            for (const item of json) {
+                let camID = item.camID;
+                let faceID = item.faceID;
+                let list = document.getElementById(`list${camID}`);
+                if(list != null){
+                    let link = `/face/${camID}/${faceID}?` + new Date().getTime();
+                    list.innerHTML += `<li><img src=${link}/></li>`;
+                }
+            }
+        });        
+    })
+</script>
+</html>
